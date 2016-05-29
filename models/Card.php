@@ -35,14 +35,10 @@ class Card extends \yii\db\ActiveRecord
     
         if ($this->status !== self::STATUS_EXPIRED) {
             
-            $createDate     = (new DateTime($this->create_date))->getTimestamp();
             $expireDate     = (new DateTime($this->expire_date))->getTimestamp();
             $now            = (new DateTime('now'))->getTimestamp();
-                    
-            $leftTime       = $now - $createDate;
-            $designatedTime = $expireDate - $createDate;
-                   
-            if ($leftTime > $designatedTime) {
+            
+            if ($now > $expireDate) {
                 $this->status = self::STATUS_EXPIRED;
                 $this->update();
             }
